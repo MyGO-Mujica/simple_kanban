@@ -1,6 +1,6 @@
 // 定义路由
 import { createBrowserRouter } from "react-router"
-import { Board } from "@/view/Borad"
+import { BoardPage } from "@/view/Borad"
 
 // 先定义路由
 const routes = [
@@ -9,8 +9,8 @@ const routes = [
         element: <div>首页</div>
 },
 {
-        path: '/about',
-        element: <Board />
+        path: '/board',
+        element: <BoardPage />
 }
 ]
 
