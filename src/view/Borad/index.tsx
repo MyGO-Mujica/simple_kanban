@@ -1,16 +1,16 @@
 import { useKanban } from "@/stores/useKanban"
 import { Button } from "@/components/ui/button";
-import { Borad } from "@/components/Board";
+import { Board } from "@/components/Board";
 
 export const BoardPage = () => {
    const createBoard = useKanban(state => state.createBoard);
     return (    
       <div>
-        <Borad  />
+        <Board  />
         <Button 
            variant="outline"
             onClick ={() =>
-                createBoard({id:`${Date.now()}`, name: '新板'})
+                createBoard({groupId:`${Date.now()}`, groupName: '新板', tasks: []})
             }>
             新建板
          </Button>
