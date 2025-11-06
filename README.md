@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# 📋 Simple Kanban
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个简洁高效的看板应用，用 React + TypeScript + Tailwind CSS + dnd-kit 构建。
 
-Currently, two official plugins are available:
+## ✨ 功能特性
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎯 **多列看板**：支持创建多个看板列
+- 🎨 **拖拽排序**：使用 dnd-kit 实现流畅的任务拖放
+- ➕ **添加任务**：快速为每个看板添加新任务
+- 💅 **现代 UI**：使用 Tailwind CSS 和 shadcn/ui 组件
+- ⚡ **快速响应**：基于 Vite 和 React 19 的高性能体验
+- 📦 **全局状态**：使用 Zustand 管理应用状态
 
-## React Compiler
+## 🛠️ 技术栈
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **框架**：React 19 + TypeScript
+- **构建工具**：Vite 7
+- **样式**：Tailwind CSS 4 + shadcn/ui
+- **状态管理**：Zustand
+- **拖放库**：@dnd-kit/core
+- **路由**：React Router 7
 
-## Expanding the ESLint configuration
+## 🚀 快速开始
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 安装依赖
+```bash
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 启动开发服务器
+```bash
+pnpm dev
 ```
+
+访问 `http://localhost:5173`
+
+### 构建生产版本
+```bash
+pnpm build
+```
+
+## 📁 项目结构
+
+```
+src/
+├── components/        # 组件
+│   ├── Board/        # 看板主组件
+│   │   ├── index.tsx # 主看板组件
+│   │   ├── Task.tsx  # 任务卡片（可拖动）
+│   │   └── KanbanGroup.tsx # 看板列（可接收）
+│   └── ui/           # UI 组件库
+├── stores/           # 状态管理
+│   └── useKanban.ts # Zustand store
+├── view/             # 页面视图
+│   ├── Home/        # 首页
+│   └── Borad/       # 看板页面
+└── router/          # 路由配置
+```
+
+## 📖 使用说明
+
+1. **首页**：点击"进入看板"按钮进入看板界面
+2. **创建看板**：点击"新建板"添加新的看板列
+3. **添加任务**：在每个看板中点击"新建任务"按钮
+4. **移动任务**：拖动任务卡片到其他看板列
+
+## 🎯 主要功能说明
+
+### 状态管理（useKanban）
+- `boards`：看板列表
+- `createBoard`：创建新看板
+- `updateBoard`：更新看板数据
+- `moveTask`：移动任务到其他看板
+
+### 拖放交互
+- 使用 `@dnd-kit/core` 提供拖放功能
+- `Task` 组件：使用 `useDraggable` 使任务可拖动
+- `KanbanGroup` 组件：使用 `useDroppable` 使看板列可接收
+
+## 📝 License
+
+MIT
