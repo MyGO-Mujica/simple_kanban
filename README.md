@@ -77,6 +77,3 @@ src/
 - `Task` 组件：使用 `useDraggable` 使任务可拖动
 - `KanbanGroup` 组件：使用 `useDroppable` 使看板列可接收
 
-## 📝 License
-
-MIT
