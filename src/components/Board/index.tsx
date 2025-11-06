@@ -1,14 +1,30 @@
 import { useKanban } from "@/stores/useKanban";
 import { Task } from "./Task";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, type DragEndEvent } from "@dnd-kit/core";
 import { KanbanGroup } from "./KanbanGroup";
 import { Button }from "@/components/ui/button";
 
 export const Board =() => {
-  const { boards, updateBoard} = useKanban(state => state);
+  const { boards, updateBoard, moveTask} = useKanban(state => state);
+  
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    // ✅ 检查是否有有效的放置目标
+    if (!over || !active.id) return;
+    
+    // ✅ 正确解析 id（字符串分割，然后数组解构）
+    const idStr = String(active.id);
+    const [groupIdStr, taskIdStr] = idStr.split('-');
+    
+    if (!groupIdStr || !taskIdStr) return;
+    
+    // ✅ 转换为字符串传递给 moveTask
+    moveTask(taskIdStr, groupIdStr, String(over.id));
+  }
   return (
      /* ← dnd-kit 的根容器 */
-    <DndContext>
+    <DndContext onDragEnd={handleDragEnd}>
       <div className="flex flex-row">
         {boards.map((board) => (
           <div key={board.groupId} className="flex flex-row">
@@ -18,11 +34,11 @@ export const Board =() => {
                    <div className="w-fit rounded-full bg-blue-300 px-1 mb-2">未开始</div>
                      <div>
                           {
-                           board.tasks.map((item, index) =>(
+                           board.tasks.map((item) =>(
                              <Task 
                              key={item.id}  
-                             id={item.id}
-                             title={`任务${index + 1}`} />
+                             id={`${board.groupId}-${item.id}`}
+                             title={`${item.title}`} />
                           ))}
                      </div>
                   </div>
@@ -31,7 +47,7 @@ export const Board =() => {
                  onClick={() => updateBoard({ 
                  groupId: board.groupId,
                  groupName: board.groupName,
-                 tasks: [...board.tasks, { id: Date.now(), title: '新任务' }] })}>
+                 tasks: [...board.tasks, { id: Date.now(), title: `任务${board.tasks.length+1}` }] })}>
                   新建任务
                  </Button>
              </KanbanGroup>
